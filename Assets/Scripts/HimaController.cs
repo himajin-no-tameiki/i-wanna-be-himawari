@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class HimaController : MonoBehaviour {
 
-	[HideInInspector] public bool facingRight = true;
-	[HideInInspector] public bool jump = false;
+	[HideInInspector]
+	public bool facingRight = true;
+	[HideInInspector]
+	public bool jump = false;
+
 	public float moveAccel = 30f;
 	public float maxSpeed = 2f;
 	public float jumpSpeed = 10f;
 	public int maxAirJumps = 2;
+	public float distanceToGround = 0.78f;
 	public GameObject deathParticle;
 
 	private bool grounded = false;
@@ -34,7 +38,13 @@ public class HimaController : MonoBehaviour {
 
 	bool isGrounded() {
 		int groundLayer = 1 << LayerMask.NameToLayer("Ground");
-		return rb2d.IsTouchingLayers(groundLayer);
+//		return rb2d.IsTouchingLayers(groundLayer);
+
+		Vector2 position = transform.position;
+		Vector2 direction = Vector2.down;
+
+		RaycastHit2D hit = Physics2D.Raycast(position, direction, distanceToGround, groundLayer);
+		return hit.collider != null;
 	}
 
 	void FixedUpdate() {
