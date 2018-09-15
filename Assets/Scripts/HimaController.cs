@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HimaController : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class HimaController : MonoBehaviour {
 	public bool facingRight = true;
 	[HideInInspector]
 	public bool jump = false;
+
+	public UnityEvent deathEvent;
 
 	public float moveAccel = 30f;
 	public float maxSpeed = 2f;
@@ -25,6 +28,14 @@ public class HimaController : MonoBehaviour {
 	void Awake() {
 		anim = GetComponent<Animator>();
 		rb2d = GetComponent<Rigidbody2D>();
+	}
+
+	void Start() {
+		LevelManager.instance.playerObject = gameObject;
+		transform.position = LevelManager.instance.savedPosition;
+
+		if (deathEvent == null)
+			deathEvent = new UnityEvent();
 	}
 
 	// Update is called once per frame
@@ -125,5 +136,7 @@ public class HimaController : MonoBehaviour {
 	void Die() {
 		Destroy(gameObject);
 		GameObject.Instantiate(deathParticle, transform.position, Quaternion.identity);
+
+		deathEvent.Invoke();
 	}
 }

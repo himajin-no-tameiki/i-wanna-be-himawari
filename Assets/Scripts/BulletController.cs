@@ -19,11 +19,13 @@ public class BulletController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-		checkCollider(col);
-	}
-		
-	void OnTriggerStay2D(Collider2D col) {
-		checkCollider(col);
+		IDamageable damagable = col.gameObject.GetComponent<IDamageable>();
+
+		if (damagable != null) {
+			damagable.Damage(1f);
+		}
+
+		Destroy(gameObject);
 	}
 
 	void checkCollider(Collider2D col) {
