@@ -102,11 +102,14 @@ public class HimaController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D col) {
-		string tag = col.gameObject.tag;
 
-		if (tag == "Trap") {
+		if (col.gameObject.CompareTag("Trap")) {
 			Die();
 		}
+	}
+
+	void OnTriggerEnter2D(Collider2D col) {
+		Debug.Log(LayerMask.LayerToName(col.gameObject.layer));
 	}
 
 	void Die() {

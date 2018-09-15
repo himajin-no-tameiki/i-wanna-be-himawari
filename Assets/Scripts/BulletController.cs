@@ -6,10 +6,7 @@ public class BulletController : MonoBehaviour {
 	[HideInInspector]
 	public Vector3 velocity = Vector3.zero;
 
-	private Rigidbody2D rb;
-
 	void Start () {
-		rb = GetComponent<Rigidbody2D>();
 	}
 
 	void FixedUpdate () {
