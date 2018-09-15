@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour {
 	public static LevelManager instance = null;
 	[HideInInspector]
 	public GameObject playerObject = null;
-	[HideInInspector]
+
 	public Vector3 savedPosition = new Vector3(-32, 13, 0);
 
 	void Awake () {

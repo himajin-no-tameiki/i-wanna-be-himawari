@@ -6,11 +6,19 @@ using UnityEngine.Events;
 public class SaveButton : MonoBehaviour, IDamageable {
 
 //	public UnityEvent saveEvent;
+	public Color defaultColor;
+	public Color activeColor;
+
+	private SpriteRenderer sr;
+	private Coroutine turnOffCoroutine;
 
 	// Use this for initialization
 	void Start () {
 //		if (saveEvent == null) 
 //			saveEvent = new UnityEvent();
+
+		sr = GetComponent<SpriteRenderer>();
+		sr.color = defaultColor;
 	}
 	
 	// Update is called once per frame
@@ -19,11 +27,32 @@ public class SaveButton : MonoBehaviour, IDamageable {
 	}
 
 	public void Damage(float damage) {
-		save();
+		Save();
+		TurnOn();
 	}
 
-	void save() {
+	void Save() {
 //		saveEvent.Invoke();
 		LevelManager.instance.SaveGame();
+
+		if (turnOffCoroutine != null)
+			StopCoroutine(turnOffCoroutine);
+
+		TurnOn();
+		turnOffCoroutine = StartCoroutine(TurnOffLater());
+	}
+
+	void TurnOn() {
+		sr.color = activeColor;
+
+	}
+
+	void TurnOff() {
+		sr.color = defaultColor;
+	}
+
+	IEnumerator TurnOffLater() {
+		yield return new WaitForSeconds(0.5f);
+		TurnOff();
 	}
 }
