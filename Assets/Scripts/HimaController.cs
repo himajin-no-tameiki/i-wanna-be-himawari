@@ -45,7 +45,6 @@ public class HimaController : MonoBehaviour {
 		if (Input.GetButtonDown("Jump") && jumpCount < maxAirJumps) {
 			jump = true;
 			jumpCount += 1;
-			Debug.Log("jump");
 		}
 	}
 
@@ -93,12 +92,10 @@ public class HimaController : MonoBehaviour {
 		if (nextGrounded && !grounded) {
 
 			anim.SetTrigger("Land");
-			Debug.Log("land");
 		}
 
 		if (!nextGrounded && grounded) {
 			anim.SetTrigger("Midair");
-			Debug.Log("Midair");
 		}
 
 		grounded = nextGrounded;
@@ -133,5 +130,6 @@ public class HimaController : MonoBehaviour {
 		GameObject.Instantiate(deathParticle, transform.position, Quaternion.identity);
 
 		deathEvent.Invoke();
+		LevelManager.instance.OnDeath();
 	}
 }

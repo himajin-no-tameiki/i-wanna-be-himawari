@@ -9,8 +9,16 @@ public class LevelManager : MonoBehaviour {
 	public static LevelManager instance = null;
 	[HideInInspector]
 	public GameObject playerObject = null;
+	[HideInInspector]
+	public float playTime = 0f;
+	[HideInInspector]
+	public Vector3 savedPosition;
 
-	public Vector3 savedPosition = new Vector3(-32, 13, 0);
+	public Vector3 initialPosition = new Vector3(-26f, 14f, 0f);
+	public GameoverUI gameoverUI;
+	public AudioSource deathSound;
+
+	private bool playing = true;
 
 	void Awake () {
 		if (instance == null)
@@ -22,12 +30,18 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void Start () {
+		savedPosition = initialPosition;
 	}
 
 	void Update () {
+		if (playing) {
+			playTime += Time.deltaTime;
+		}
+
 		if (Input.GetButtonDown("Reset")) {
 			Scene scene = SceneManager.GetActiveScene();
 			SceneManager.LoadScene(scene.name);
+			playing = true;
 		}
 	}
 
@@ -35,5 +49,27 @@ public class LevelManager : MonoBehaviour {
 		Debug.Log("Save!!");
 		if (playerObject)
 			savedPosition = position;
+	}
+
+	public void OnDeath() {
+		if (gameoverUI)
+			gameoverUI.Trigger();
+
+		if (deathSound)
+			deathSound.Play();
+
+		playing = false;
+	}
+
+	public void Clear() {
+		savedPosition = initialPosition;
+		SceneManager.LoadScene("Score");
+		playing = false;
+	}
+
+	public void GameRestart() {
+		playing = true;
+		playTime = 0f;
+		SceneManager.LoadScene("Main");
 	}
 }

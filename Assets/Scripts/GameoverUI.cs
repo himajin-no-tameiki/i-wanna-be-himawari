@@ -7,6 +7,10 @@ public class GameoverUI : MonoBehaviour {
 
 	private Image imageComp;
 
+	void Awake() {
+		LevelManager.instance.gameoverUI = this;
+	}
+
 	void Start () {
 		imageComp = GetComponent<Image>();
 		imageComp.enabled = false;
@@ -16,7 +20,7 @@ public class GameoverUI : MonoBehaviour {
 		
 	}
 
-	public void OnDeath() {
+	public void Trigger() {
 		StartCoroutine(Show());
 	}
 

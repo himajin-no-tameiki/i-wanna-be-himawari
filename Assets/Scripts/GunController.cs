@@ -6,6 +6,7 @@ public class GunController : MonoBehaviour {
 	public float bulletSpeed = 10f;
 	public GameObject bulletPrefab;
 	public Transform firePosition;
+	public AudioSource fireSound;
 
 
 	private HimaController hima;
@@ -22,6 +23,10 @@ public class GunController : MonoBehaviour {
 			GameObject bullet = GameObject.Instantiate(bulletPrefab, firePosition.position, Quaternion.identity);
 			float vx = hima.facingRight ? bulletSpeed : -bulletSpeed;
 			bullet.GetComponent<BulletController>().velocity = new Vector3(vx, 0, 0);
+
+			if (fireSound) {
+				fireSound.PlayOneShot(fireSound.clip);
+			}
 		}
 	}
 }
