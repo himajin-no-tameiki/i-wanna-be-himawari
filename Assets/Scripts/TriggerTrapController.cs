@@ -19,9 +19,12 @@ public class TriggerTrapController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
-		Debug.Log("triggered parent");
 		if (col.gameObject.layer == LayerMask.NameToLayer("Player")) {
 			triggered = true;
+
+			if (!gameObject.CompareTag("Trap")) {
+				gameObject.tag = "Trap";
+			}
 		}
 	}
 

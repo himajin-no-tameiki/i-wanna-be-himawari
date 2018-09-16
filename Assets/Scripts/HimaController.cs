@@ -23,11 +23,13 @@ public class HimaController : MonoBehaviour {
 	private Animator anim;
 	private Rigidbody2D rb2d;
 	private int jumpCount;
+	private int groundLayerMask;
 
 	// Use this for initialization
 	void Awake() {
 		anim = GetComponent<Animator>();
 		rb2d = GetComponent<Rigidbody2D>();
+		groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
 	}
 
 	void Start() {
@@ -48,13 +50,12 @@ public class HimaController : MonoBehaviour {
 	}
 
 	bool isGrounded() {
-		int groundLayer = 1 << LayerMask.NameToLayer("Ground");
 //		return rb2d.IsTouchingLayers(groundLayer);
 
 		Vector2 position = transform.position;
 		Vector2 direction = Vector2.down;
 
-		RaycastHit2D hit = Physics2D.Raycast(position, direction, distanceToGround, groundLayer);
+		RaycastHit2D hit = Physics2D.Raycast(position, direction, distanceToGround, groundLayerMask);
 		return hit.collider != null;
 	}
 
@@ -70,8 +71,6 @@ public class HimaController : MonoBehaviour {
 			anim.SetBool("Walking", true);
 		}
 
-
-//		anim.SetFloat("Speed", Mathf.Abs(h));
 		anim.SetFloat("VelocityY", rb2d.velocity.y);
 
 		if (h > 0 && !facingRight)
@@ -79,19 +78,8 @@ public class HimaController : MonoBehaviour {
 		else if (h < 0 && facingRight)
 			Flip ();
 
-//		if (jump) {
-//			anim.SetTrigger("Jump");
-//			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
-//			jump = false;
-//		}
-//
 		bool nextGrounded = isGrounded();
 
-//		if (grounded && !jump) {
-//			jumpCount = 0;
-//			anim.SetTrigger("Land");
-//			Debug.Log("land");
-//		}
 
 		if (jump) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
@@ -114,8 +102,15 @@ public class HimaController : MonoBehaviour {
 		}
 
 		grounded = nextGrounded;
+
+		if (isInsideGround()) {
+			Die();
+		}
 	}
 
+	bool isInsideGround() {
+		return Physics2D.OverlapPoint(transform.position, groundLayerMask);
+	}
 
 	void Flip() {
 		facingRight = !facingRight;
