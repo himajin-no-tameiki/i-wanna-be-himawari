@@ -8,5 +8,7 @@
 Unity 2018.2.6f1
 
 ## 使用素材
+- 魔王魂(効果音)
+  - [ハズレ](https://maoudamashii.jokersounds.com/archives/se_maoudamashii_onepoint32.html)
 - Freesound
-  - [Laser bolt](https://freesound.org/people/peepholecircus/sounds/169989/)
+  - [pop.wav](https://freesound.org/people/yottasounds/sounds/176727/)
