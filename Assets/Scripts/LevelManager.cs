@@ -31,9 +31,9 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
-	public void SaveGame() {
+	public void SaveGame(Vector3 position) {
 		Debug.Log("Save!!");
 		if (playerObject)
-			savedPosition = playerObject.transform.position;
+			savedPosition = position;
 	}
 }

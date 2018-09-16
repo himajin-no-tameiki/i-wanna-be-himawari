@@ -33,7 +33,7 @@ public class SaveButton : MonoBehaviour, IDamageable {
 
 	void Save() {
 //		saveEvent.Invoke();
-		LevelManager.instance.SaveGame();
+		LevelManager.instance.SaveGame(transform.position + Vector3.up * 2.5f);
 
 		if (turnOffCoroutine != null)
 			StopCoroutine(turnOffCoroutine);
